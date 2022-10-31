@@ -1,8 +1,13 @@
+import React from "react";
 import styles from "./button.module.css";
 
-export function Button({ text }: { text: string }) {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  text?: string;
+}
+
+export function Button({ text = "Click Me!", ...props }: ButtonProps) {
   return (
-    <button type="submit" className={styles.button}>
+    <button type="submit" className={styles.button} {...props}>
       {text}
     </button>
   );
