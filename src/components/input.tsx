@@ -3,15 +3,21 @@ import styles from "./input.module.css";
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   errorMessage: string;
+  submitted: boolean;
 }
-export function Input({ label, errorMessage, ...props }: InputProps) {
+export function Input({
+  label,
+  errorMessage,
+  submitted,
+  ...props
+}: InputProps) {
   return (
     <label className={styles.label}>
       {label}:
       <input
         type="text"
         className={styles.input}
-        aria-invalid="true"
+        aria-invalid={submitted && !props.value}
         aria-errormessage={`error-${props.name}`}
         {...props}
       />
