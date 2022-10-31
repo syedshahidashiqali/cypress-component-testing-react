@@ -6,10 +6,28 @@ import styles from "./login-form.module.css";
 export function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    login();
   }
+
+  const login = async () => {
+    if (username && password) {
+      const res = await fetch("/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (res.status === 401) {
+        setErrorMessage("Bad username or password");
+      } else {
+        setErrorMessage("");
+      }
+    }
+  };
   return (
     <form className={styles.form} onSubmit={onSubmit}>
       <fieldset className={styles.fieldset}>
@@ -33,7 +51,7 @@ export function LoginForm() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button text="Login" />
-        <div className={styles.error}>Bad username or password</div>
+        {errorMessage && <div className={styles.error}>{errorMessage}</div>}
         <div className={styles.success}>Welcome username!</div>
       </fieldset>
     </form>
