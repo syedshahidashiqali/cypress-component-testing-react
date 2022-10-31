@@ -1,7 +1,9 @@
-export function Button() {
+import styles from "./button.module.css";
+
+export function Button({ text }: { text: string }) {
   return (
-    <button type="submit" className="button">
-      Login
+    <button type="submit" className={styles.button}>
+      {text}
     </button>
-  )
+  );
 }
